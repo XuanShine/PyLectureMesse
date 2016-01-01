@@ -1,8 +1,10 @@
+#!/usr/bin/python3
+
 from requests import get
 from bs4 import BeautifulSoup as BS
 
 url = 'http://www.aelf.org/office-messe'
-url = 'http://www.aelf.org/office-messe?date_my=13/01/2016'
+# url = 'http://www.aelf.org/office-messe?date_my=13/01/2016'
 
 
 def get_text(soup, type_text):
@@ -23,9 +25,15 @@ def get_text(soup, type_text):
 
 
 def main():
+    """Yield texts from aelf.org"""
     response = get(url)
     soup = BS(response.text, "html5lib")
     type_texts = ['1ère lecture', 'Psaume', '2ème lecture', 'Evangile']
     for type_text in type_texts:
         yield get_text(soup, type_text)
     # yield soup
+
+
+if __name__ == '__main__':
+    for text in main():
+        print(text)
